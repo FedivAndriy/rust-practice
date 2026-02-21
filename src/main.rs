@@ -1,52 +1,8 @@
+mod instructions;
+mod state;
 
-enum DexInstruction{
-    Swap{from_token:String, to_token:String, amount:u64},
-    AddLiquidity{token_pair:String, amount:u64},
-    Withdraw{amount:u64},
-    CloseAccount,
-}
-
-struct DexState{
-    sol_to_usdc: u64,
-}
-
-impl DexState {
-    fn exchange(&self, instruction:DexInstruction){
-        match instruction {
-            DexInstruction::Swap { from_token, to_token, amount} => {
-                let recieved = amount * &self.sol_to_usdc;
-                println!("🔄 Успіх! Віддано: {} {}, Отримано: {} {}", amount, from_token, recieved, to_token);
-            }
-            DexInstruction::Withdraw { amount } => {
-                println!("💸 Виведено: {}", amount);
-            }
-            _ => println!("Error"),
-        }
-    }
-}
-
-fn process_instruction(instruction:DexInstruction){
-    match instruction{
-        DexInstruction::Swap { from_token, to_token, amount} => println!("🔄 Обмін {} {} на {}", amount, from_token, to_token),
-        DexInstruction::AddLiquidity {amount, token_pair} => println!("💰 Додавання ліквідності: {} у пару {}", amount, token_pair),
-        DexInstruction::Withdraw {amount} => println!("💸 Виведення коштів: {} lamports", amount),
-        DexInstruction::CloseAccount => println!("🚫 Закриття торгового акаунта"),
-    }
-}
-
-fn apply_bonus(amount: u64, code: Option<String>) -> u64 {
-
-    if let Some(c) = code {
-
-        if c == "SOLANA10" {
-            let percent = amount / 10;
-            return amount + percent;
-        }
-    }
-
-
-    amount
-}
+use instructions::*;
+use state::*;
 
 fn main() {
 
