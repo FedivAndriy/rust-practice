@@ -1,6 +1,6 @@
 use crate::instructions::*;
 pub struct DexState{
-    pub sol_to_usdc: u64,
+    sol_to_usdc: u64,
 }
 
 impl DexState {
